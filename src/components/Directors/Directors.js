@@ -17,8 +17,8 @@ const Directors = ({classes}) => {
     const handleClickOpen = data => {
         setDirectorData(prevState => ({
             ...prevState,
-            open: true,
-            ...data
+            ...data,
+            open: true
         }))
     };
 
