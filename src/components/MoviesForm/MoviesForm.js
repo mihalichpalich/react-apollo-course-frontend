@@ -26,7 +26,8 @@ const MoviesForm = (
         handleSelectChange,
         handleCheckboxChange,
         data,
-        addMovie
+        addMovie,
+        updateMovie
     }
 ) => {
     const {directors = []} = data;
@@ -34,7 +35,10 @@ const MoviesForm = (
     const handleClose = () => onClose();
     const handleSave = () => {
         const {id, name, genre, rate, directorId, watched} = selectedValue;
-        addMovie({id, name, genre, rate: Number(rate), directorId, watched: Boolean(watched)});
+        id ?
+            updateMovie({id, name, genre, rate: Number(rate), directorId, watched: Boolean(watched)})
+            :
+            addMovie({name, genre, rate: Number(rate), directorId, watched: Boolean(watched)});
         onClose()
     };
 

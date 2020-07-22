@@ -4,12 +4,12 @@ import SaveIcon from '@material-ui/icons/Save';
 
 import withHocs from './DirectorsFormHoc';
 
-const DirectorsForm = ({selectedValue = {}, onClose, classes, open, handleChange, addDirector}) => {
+const DirectorsForm = ({selectedValue = {}, onClose, classes, open, handleChange, addDirector, updateDirector}) => {
     const handleClose = () => onClose();
 
     const handleSave = () => {
         const {id, name, age} = selectedValue;
-        addDirector({name, age: Number(age)});
+        id ? updateDirector({id, name, age: Number(age)}) : addDirector({name, age: Number(age)});
         onClose()
     };
 

@@ -6,7 +6,6 @@ import CreateIcon from '@material-ui/icons/Create';
 
 import withHocs from './DirectorsTableHoc';
 import DirectorsDialog from "../DirectorsDialog/DirectorsDialog";
-import MoviesDialog from "../MoviesDialog/MoviesDialog";
 
 const DirectorsTable = ({classes, onOpen, data}) => {
     const [anchorEl, setAnchorEl] = useState(null);
