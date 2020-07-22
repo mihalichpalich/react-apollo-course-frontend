@@ -7,25 +7,21 @@ import CreateIcon from '@material-ui/icons/Create';
 import withHocs from './MoviesTableHoc';
 import ItemDialog from "../ItemDialog/ItemDialog";
 
-const movies = [
-    { id: 1, name: 'Pulp Fiction', genre: 'Crime', rate: 10, director: { name: 'Quentin Tarantino' }, watched: true },
-    { id: 2, name: 'Lock, Stock and Two Smoking Barrels', genre: 'Crime-comedy', rate: 9, director: { name: 'Guy Ritchie' }, watched: false },
-];
-
-const MoviesTable = ({classes, onOpen}) => {
+const MoviesTable = ({classes, onOpen, data}) => {
     const [anchorEl, setAnchorEl] = useState(null);
     const [openDialog, setOpenDialog] = useState(false);
-    const [data, setData] = useState({});
+    const [tableData, setTableData] = useState({});
+    const {movies = []} = data;
 
     const handleClick = ({currentTarget}, data) => {
         setAnchorEl(currentTarget);
-        setData(data)
+        setTableData(data)
     };
 
     const handleClose = () => setAnchorEl(null);
 
     const handleEdit = () => {
-        onOpen(data);
+        onOpen(tableData);
         handleClose()
     };
 
@@ -39,7 +35,7 @@ const MoviesTable = ({classes, onOpen}) => {
 
     return (
         <>
-            <ItemDialog open={openDialog} handleClose={handleDialogClose} id={data.id}/>
+            <ItemDialog open={openDialog} handleClose={handleDialogClose} id={tableData.id}/>
 
             <Paper className={classes.root}>
                 <Table>

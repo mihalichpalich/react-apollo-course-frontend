@@ -20,8 +20,8 @@ const Movies = ({classes}) => {
     const handleClickOpen = (data = {}) => {
         setMovieData(prevState => ({
             ...prevState,
-            open: true,
             ...data,
+            open: true,
             directorId: data.director ? data.director.id : ''
         }))
     };

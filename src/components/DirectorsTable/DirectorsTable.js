@@ -7,25 +7,21 @@ import CreateIcon from '@material-ui/icons/Create';
 import withHocs from './DirectorsTableHoc';
 import ItemDialog from "../ItemDialog/ItemDialog";
 
-const directors = [
-    { id: 1, name: 'Quentin Tarantino', age: 55, movies: [ { name: 'Movie 1' }, { name: 'Movie 2' } ] },
-    { id: 2, name: 'Guy Ritchie', age: 50, movies: [ { name: 'Movie 1' }, { name: 'Movie 2' } ] }
-];
-
-const DirectorsTable = ({classes, onOpen}) => {
+const DirectorsTable = ({classes, onOpen, data}) => {
     const [anchorEl, setAnchorEl] = useState(null);
     const [openDialog, setOpenDialog] = useState(false);
-    const [data, setData] = useState({});
+    const [tableData, setTableData] = useState({});
+    const {directors = []} = data;
 
     const handleClick = ({currentTarget}, data) => {
         setAnchorEl(currentTarget);
-        setData(data)
+        setTableData(data)
     };
 
     const handleClose = () => setAnchorEl(null);
 
     const handleEdit = row => {
-        onOpen(data);
+        onOpen(tableData);
         handleClose()
     };
 
@@ -39,7 +35,7 @@ const DirectorsTable = ({classes, onOpen}) => {
 
     return (
         <>
-            <ItemDialog open={openDialog} handleClose={handleDialogClose} id={data.id}/>
+            <ItemDialog open={openDialog} handleClose={handleDialogClose} id={tableData.id}/>
 
             <Paper className={classes.root}>
                 <Table>
