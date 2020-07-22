@@ -5,7 +5,8 @@ import DeleteIcon from '@material-ui/icons/Delete';
 import CreateIcon from '@material-ui/icons/Create';
 
 import withHocs from './DirectorsTableHoc';
-import ItemDialog from "../ItemDialog/ItemDialog";
+import DirectorsDialog from "../DirectorsDialog/DirectorsDialog";
+import MoviesDialog from "../MoviesDialog/MoviesDialog";
 
 const DirectorsTable = ({classes, onOpen, data}) => {
     const [anchorEl, setAnchorEl] = useState(null);
@@ -35,7 +36,7 @@ const DirectorsTable = ({classes, onOpen, data}) => {
 
     return (
         <>
-            <ItemDialog open={openDialog} handleClose={handleDialogClose} id={tableData.id}/>
+            <DirectorsDialog open={openDialog} handleClose={handleDialogClose} id={tableData.id}/>
 
             <Paper className={classes.root}>
                 <Table>
