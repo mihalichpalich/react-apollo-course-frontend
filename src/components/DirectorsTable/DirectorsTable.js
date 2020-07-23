@@ -6,12 +6,27 @@ import CreateIcon from '@material-ui/icons/Create';
 
 import withHocs from './DirectorsTableHoc';
 import DirectorsDialog from "../DirectorsDialog/DirectorsDialog";
+import DirectorsSearch from "../DirectorsSearch/DirectorsSearch";
 
 const DirectorsTable = ({classes, onOpen, data}) => {
     const [anchorEl, setAnchorEl] = useState(null);
     const [openDialog, setOpenDialog] = useState(false);
     const [tableData, setTableData] = useState({});
+    const [name, setName] = useState('');
     const {directors = []} = data;
+
+    const handleChange = event => {
+        setName(event.target.value)
+    };
+
+    const handleSearch = e => {
+        if (e.charCode === 13) {
+            data.fetchMore({
+                variables: {name},
+                updateQuery: (previousResult, {fetchMoreResult}) => fetchMoreResult
+            })
+        }
+    };
 
     const handleClick = ({currentTarget}, data) => {
         setAnchorEl(currentTarget);
@@ -35,6 +50,10 @@ const DirectorsTable = ({classes, onOpen, data}) => {
 
     return (
         <>
+            <Paper>
+                <DirectorsSearch name={name} handleChange={handleChange} handleSearch={handleSearch}/>
+            </Paper>
+
             <DirectorsDialog open={openDialog} handleClose={handleDialogClose} id={tableData.id}/>
 
             <Paper className={classes.root}>

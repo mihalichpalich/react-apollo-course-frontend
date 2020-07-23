@@ -11,7 +11,10 @@ const withGraphQl = compose(
         props: ({mutate}) => ({
             addDirector: director => mutate({ //формируем проп addDirector
                 variables: director,
-                refetchQueries: [{query: directorsQuery}] //загрузка данных о режиссерах после обновления
+                refetchQueries: [{
+                    query: directorsQuery,
+                    variables: {name: ''}
+                }]
             })
         })
     }),
@@ -19,7 +22,10 @@ const withGraphQl = compose(
         props: ({mutate}) => ({
             updateDirector: director => mutate({ //формируем проп addDirector
                 variables: director,
-                refetchQueries: [{query: directorsQuery}] //загрузка данных о режиссерах после обновления
+                refetchQueries: [{
+                    query: directorsQuery,
+                    variables: {name: ''}
+                }]
             })
         })
     })

@@ -6,12 +6,27 @@ import CreateIcon from '@material-ui/icons/Create';
 
 import withHocs from './MoviesTableHoc';
 import MoviesDialog from "../MoviesDialog/MoviesDialog";
+import MoviesSearch from "../MoviesSearch/MoviesSearch";
 
 const MoviesTable = ({classes, onOpen, data}) => {
     const [anchorEl, setAnchorEl] = useState(null);
     const [openDialog, setOpenDialog] = useState(false);
     const [tableData, setTableData] = useState({});
+    const [name, setName] = useState('');
     const {movies = []} = data;
+
+    const handleChange = event => {
+        setName(event.target.value)
+    };
+
+    const handleSearch = e => {
+        if (e.charCode === 13) {
+            data.fetchMore({
+                variables: {name},
+                updateQuery: (previousResult, {fetchMoreResult}) => fetchMoreResult
+            })
+        }
+    };
 
     const handleClick = ({currentTarget}, data) => {
         setAnchorEl(currentTarget);
@@ -35,6 +50,10 @@ const MoviesTable = ({classes, onOpen, data}) => {
 
     return (
         <>
+            <Paper>
+                <MoviesSearch name={name} handleChange={handleChange} handleSearch={handleSearch}/>
+            </Paper>
+
             <MoviesDialog open={openDialog} handleClose={handleDialogClose} id={tableData.id}/>
 
             <Paper className={classes.root}>
