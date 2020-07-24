@@ -8,15 +8,30 @@ import {useQuery} from '@apollo/client';
 import withHocs from './DirectorsTableHoc';
 import DirectorsDialog from "../DirectorsDialog/DirectorsDialog";
 import {directorsQuery} from "./queries";
+import DirectorsSearch from "../DirectorsSearch/DirectorsSearch";
 
 const DirectorsTable = ({classes, onOpen}) => {
     const [anchorEl, setAnchorEl] = useState(null);
     const [openDialog, setOpenDialog] = useState(false);
     const [itemData, setItemData] = useState({});
-    const {loading, error, data = {}} = useQuery(directorsQuery, {
+    const [name, setName] = useState('');
+    const {loading, data = {}, fetchMore} = useQuery(directorsQuery, {
         variables: {name: ""}
     });
     const {directors = []} = data;
+
+    const handleChange = event => {
+        setName(event.target.value)
+    };
+
+    const handleSearch = (e) => {
+        if (e.charCode === 13) {
+            fetchMore({
+                variables: {name},
+                updateQuery: (previousResult, {fetchMoreResult}) => fetchMoreResult
+            })
+        }
+    };
 
     const handleClick = ({currentTarget}, data) => {
         setAnchorEl(currentTarget);
@@ -40,6 +55,10 @@ const DirectorsTable = ({classes, onOpen}) => {
 
     return (
         <>
+            <Paper>
+                <DirectorsSearch name={name} handleChange={handleChange} handleSearch={handleSearch}/>
+            </Paper>
+
             <DirectorsDialog open={openDialog} handleClose={handleDialogClose} id={itemData.id}/>
 
             <Paper className={classes.root}>

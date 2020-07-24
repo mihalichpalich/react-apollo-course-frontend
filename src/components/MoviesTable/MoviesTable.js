@@ -8,15 +8,30 @@ import {useQuery} from '@apollo/client';
 import withHocs from './MoviesTableHoc';
 import MoviesDialog from "../MoviesDialog/MoviesDialog";
 import {moviesQuery} from "./queries";
+import MoviesSearch from "../MoviesSearch/MoviesSearch";
 
 const MoviesTable = ({classes, onOpen}) => {
     const [anchorEl, setAnchorEl] = useState(null);
     const [openDialog, setOpenDialog] = useState(false);
     const [itemData, setItemData] = useState({});
-    const {loading, error, data = {}} = useQuery(moviesQuery, {
+    const [name, setName] = useState('');
+    const {loading, data = {}, fetchMore} = useQuery(moviesQuery, {
         variables: {name: ""}
     });
     const {movies = []} = data;
+
+    const handleChange = event => {
+        setName(event.target.value)
+    };
+
+    const handleSearch = (e) => {
+        if (e.charCode === 13) {
+            fetchMore({
+                variables: {name},
+                updateQuery: (previousResult, {fetchMoreResult}) => fetchMoreResult
+            })
+        }
+    };
 
     const handleClick = ({currentTarget}, data) => {
         setAnchorEl(currentTarget);
@@ -40,6 +55,10 @@ const MoviesTable = ({classes, onOpen}) => {
 
     return (
         <>
+            <Paper>
+                <MoviesSearch name={name} handleChange={handleChange} handleSearch={handleSearch}/>
+            </Paper>
+
             <MoviesDialog open={openDialog} handleClose={handleDialogClose} id={itemData.id}/>
 
             <Paper className={classes.root}>
