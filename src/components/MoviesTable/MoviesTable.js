@@ -9,18 +9,14 @@ import withHocs from './MoviesTableHoc';
 import ItemDialog from "../ItemDialog/ItemDialog";
 import {moviesQuery} from "./queries";
 
-const movies = [
-    { id: 1, name: 'Pulp Fiction', genre: 'Crime', rate: 10, director: { name: 'Quentin Tarantino' }, watched: true },
-    { id: 2, name: 'Lock, Stock and Two Smoking Barrels', genre: 'Crime-comedy', rate: 9, director: { name: 'Guy Ritchie' }, watched: false },
-];
-
 const MoviesTable = ({classes, onOpen}) => {
     const [anchorEl, setAnchorEl] = useState(null);
     const [openDialog, setOpenDialog] = useState(false);
     const [itemData, setItemData] = useState({});
-    const {loading, error, data} = useQuery(moviesQuery, {
+    const {loading, error, data = {}} = useQuery(moviesQuery, {
         variables: {name: ""}
     });
+    const {movies = []} = data;
 
     const handleClick = ({currentTarget}, data) => {
         setAnchorEl(currentTarget);
