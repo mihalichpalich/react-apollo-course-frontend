@@ -56,7 +56,8 @@ const Movies = ({classes}) => {
             watched: false,
             rate: 0,
             directorId: '',
-            open: false
+            open: false,
+            id: null
         })
     };
 

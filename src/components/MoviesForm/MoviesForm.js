@@ -13,13 +13,12 @@ import {
     Button
 } from "@material-ui/core";
 import SaveIcon from '@material-ui/icons/Save';
+import {useMutation, useQuery} from '@apollo/client';
 
 import withHocs from './MoviesFormHoc';
-
-const directors = [
-    { id: 1, name: 'Quentin Tarantino', age: 55, movies: [ { name: 'Movie 1' }, { name: 'Movie 2' } ] },
-    { id: 2, name: 'Guy Ritchie', age: 50, movies: [ { name: 'Movie 1' }, { name: 'Movie 2' } ] }
-];
+import {addMovieMutation} from "./mutations";
+import {moviesQuery} from "../MoviesTable/queries";
+import {directorsQuery} from "./queries";
 
 const MoviesForm = (
     {
@@ -32,9 +31,24 @@ const MoviesForm = (
         handleCheckboxChange
     }
 ) => {
+    const [addMovie] = useMutation(addMovieMutation);
+    const {data = {}} = useQuery(directorsQuery, {
+        variables: {name: ""}
+    });
+    const {directors = []} = data;
+
     const handleClose = () => onClose();
+
     const handleSave = () => {
         const {id, name, genre, rate, directorId, watched} = selectedValue;
+
+        addMovie({
+            variables: {name, genre, rate: Number(rate), directorId, watched: Boolean(watched)},
+            refetchQueries: [{
+                query: moviesQuery,
+                variables: {name: ""}
+            }]
+        });
         onClose()
     };
 
