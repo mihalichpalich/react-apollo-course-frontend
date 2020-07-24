@@ -4,27 +4,43 @@ import SaveIcon from '@material-ui/icons/Save';
 import {useMutation} from '@apollo/client';
 
 import withHocs from './DirectorsFormHoc';
-import {addDirectorMutation} from "./mutation";
+import {addDirectorMutation, updateDirectorMutation} from "./mutations";
 import {directorsQuery} from "../DirectorsTable/queries";
 
 const DirectorsForm = ({selectedValue = {}, onClose, classes, open, handleChange}) => {
     const [addDirector] = useMutation(addDirectorMutation);
+    const [updateDirector] = useMutation(updateDirectorMutation);
 
     const handleClose = () => onClose();
 
     const handleSave = () => {
         const {id, name, age} = selectedValue;
 
-        addDirector({
-            variables: {
-                name,
-                age: Number(age)
-            },
-            refetchQueries: [{
-                query: directorsQuery,
-                variables: {name: ""}
-            }]
-        });
+        if (id) {
+            updateDirector({
+                variables: {
+                    id,
+                    name,
+                    age: Number(age)
+                },
+                refetchQueries: [{
+                    query: directorsQuery,
+                    variables: {name: ""}
+                }]
+            })
+        } else {
+            addDirector({
+                variables: {
+                    name,
+                    age: Number(age)
+                },
+                refetchQueries: [{
+                    query: directorsQuery,
+                    variables: {name: ""}
+                }]
+            });
+        }
+
         onClose()
     };
 
