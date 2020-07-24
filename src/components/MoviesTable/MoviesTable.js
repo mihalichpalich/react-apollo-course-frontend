@@ -3,25 +3,30 @@ import {Paper, Table, TableHead, TableRow, TableCell, TableBody, Checkbox, IconB
 import MoreIcon from '@material-ui/icons/MoreVert';
 import DeleteIcon from '@material-ui/icons/Delete';
 import CreateIcon from '@material-ui/icons/Create';
+import {useQuery} from '@apollo/client';
 
 import withHocs from './MoviesTableHoc';
 import MoviesDialog from "../MoviesDialog/MoviesDialog";
+import {moviesQuery} from "./queries";
 import MoviesSearch from "../MoviesSearch/MoviesSearch";
 
-const MoviesTable = ({classes, onOpen, data}) => {
+const MoviesTable = ({classes, onOpen}) => {
     const [anchorEl, setAnchorEl] = useState(null);
     const [openDialog, setOpenDialog] = useState(false);
-    const [tableData, setTableData] = useState({});
+    const [itemData, setItemData] = useState({});
     const [name, setName] = useState('');
+    const {loading, data = {}, fetchMore} = useQuery(moviesQuery, {
+        variables: {name: ""}
+    });
     const {movies = []} = data;
 
     const handleChange = event => {
         setName(event.target.value)
     };
 
-    const handleSearch = e => {
+    const handleSearch = (e) => {
         if (e.charCode === 13) {
-            data.fetchMore({
+            fetchMore({
                 variables: {name},
                 updateQuery: (previousResult, {fetchMoreResult}) => fetchMoreResult
             })
@@ -30,13 +35,13 @@ const MoviesTable = ({classes, onOpen, data}) => {
 
     const handleClick = ({currentTarget}, data) => {
         setAnchorEl(currentTarget);
-        setTableData(data)
+        setItemData(data)
     };
 
     const handleClose = () => setAnchorEl(null);
 
     const handleEdit = () => {
-        onOpen(tableData);
+        onOpen(itemData);
         handleClose()
     };
 
@@ -54,7 +59,7 @@ const MoviesTable = ({classes, onOpen, data}) => {
                 <MoviesSearch name={name} handleChange={handleChange} handleSearch={handleSearch}/>
             </Paper>
 
-            <MoviesDialog open={openDialog} handleClose={handleDialogClose} id={tableData.id}/>
+            <MoviesDialog open={openDialog} handleClose={handleDialogClose} id={itemData.id}/>
 
             <Paper className={classes.root}>
                 <Table>

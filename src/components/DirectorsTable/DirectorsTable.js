@@ -3,25 +3,30 @@ import {Paper, Table, TableHead, TableRow, TableCell, TableBody, IconButton, Men
 import MoreIcon from '@material-ui/icons/MoreVert';
 import DeleteIcon from '@material-ui/icons/Delete';
 import CreateIcon from '@material-ui/icons/Create';
+import {useQuery} from '@apollo/client';
 
 import withHocs from './DirectorsTableHoc';
 import DirectorsDialog from "../DirectorsDialog/DirectorsDialog";
+import {directorsQuery} from "./queries";
 import DirectorsSearch from "../DirectorsSearch/DirectorsSearch";
 
-const DirectorsTable = ({classes, onOpen, data}) => {
+const DirectorsTable = ({classes, onOpen}) => {
     const [anchorEl, setAnchorEl] = useState(null);
     const [openDialog, setOpenDialog] = useState(false);
-    const [tableData, setTableData] = useState({});
+    const [itemData, setItemData] = useState({});
     const [name, setName] = useState('');
+    const {loading, data = {}, fetchMore} = useQuery(directorsQuery, {
+        variables: {name: ""}
+    });
     const {directors = []} = data;
 
     const handleChange = event => {
         setName(event.target.value)
     };
 
-    const handleSearch = e => {
+    const handleSearch = (e) => {
         if (e.charCode === 13) {
-            data.fetchMore({
+            fetchMore({
                 variables: {name},
                 updateQuery: (previousResult, {fetchMoreResult}) => fetchMoreResult
             })
@@ -30,13 +35,13 @@ const DirectorsTable = ({classes, onOpen, data}) => {
 
     const handleClick = ({currentTarget}, data) => {
         setAnchorEl(currentTarget);
-        setTableData(data)
+        setItemData(data)
     };
 
     const handleClose = () => setAnchorEl(null);
 
     const handleEdit = row => {
-        onOpen(tableData);
+        onOpen(itemData);
         handleClose()
     };
 
@@ -54,7 +59,7 @@ const DirectorsTable = ({classes, onOpen, data}) => {
                 <DirectorsSearch name={name} handleChange={handleChange} handleSearch={handleSearch}/>
             </Paper>
 
-            <DirectorsDialog open={openDialog} handleClose={handleDialogClose} id={tableData.id}/>
+            <DirectorsDialog open={openDialog} handleClose={handleDialogClose} id={itemData.id}/>
 
             <Paper className={classes.root}>
                 <Table>

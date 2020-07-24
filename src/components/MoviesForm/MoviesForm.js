@@ -13,8 +13,12 @@ import {
     Button
 } from "@material-ui/core";
 import SaveIcon from '@material-ui/icons/Save';
+import {useMutation, useQuery} from '@apollo/client';
 
 import withHocs from './MoviesFormHoc';
+import {addMovieMutation, updateMovieMutation} from "./mutations";
+import {moviesQuery} from "../MoviesTable/queries";
+import {directorsQuery} from "./queries";
 
 const MoviesForm = (
     {
@@ -24,21 +28,39 @@ const MoviesForm = (
         open,
         handleChange,
         handleSelectChange,
-        handleCheckboxChange,
-        data,
-        addMovie,
-        updateMovie
+        handleCheckboxChange
     }
 ) => {
+    const [addMovie] = useMutation(addMovieMutation);
+    const [updateMovie] = useMutation(updateMovieMutation);
+    const {data = {}} = useQuery(directorsQuery, {
+        variables: {name: ""}
+    });
     const {directors = []} = data;
 
     const handleClose = () => onClose();
+
     const handleSave = () => {
         const {id, name, genre, rate, directorId, watched} = selectedValue;
-        id ?
-            updateMovie({id, name, genre, rate: Number(rate), directorId, watched: Boolean(watched)})
-            :
-            addMovie({name, genre, rate: Number(rate), directorId, watched: Boolean(watched)});
+
+        if (id) {
+            updateMovie({
+                variables: {id, name, genre, rate: Number(rate), directorId, watched: Boolean(watched)},
+                refetchQueries: [{
+                    query: moviesQuery,
+                    variables: {name: ""}
+                }]
+            });
+        } else {
+            addMovie({
+                variables: {name, genre, rate: Number(rate), directorId, watched: Boolean(watched)},
+                refetchQueries: [{
+                    query: moviesQuery,
+                    variables: {name: ""}
+                }]
+            });
+        }
+
         onClose()
     };
 

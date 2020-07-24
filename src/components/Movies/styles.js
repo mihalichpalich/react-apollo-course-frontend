@@ -5,7 +5,7 @@ export const styles = theme => ({
     },
     fab: {
         position: 'absolute',
-        bottom: 0,
-        right: 0,
+        bottom: '0.5rem',
+        right: '4rem',
     },
 });

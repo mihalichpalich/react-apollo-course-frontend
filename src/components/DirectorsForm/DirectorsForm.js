@@ -1,15 +1,46 @@
 import React from "react";
 import {Dialog, DialogTitle, TextField, Button} from "@material-ui/core";
 import SaveIcon from '@material-ui/icons/Save';
+import {useMutation} from '@apollo/client';
 
 import withHocs from './DirectorsFormHoc';
+import {addDirectorMutation, updateDirectorMutation} from "./mutations";
+import {directorsQuery} from "../DirectorsTable/queries";
 
-const DirectorsForm = ({selectedValue = {}, onClose, classes, open, handleChange, addDirector, updateDirector}) => {
+const DirectorsForm = ({selectedValue = {}, onClose, classes, open, handleChange}) => {
+    const [addDirector] = useMutation(addDirectorMutation);
+    const [updateDirector] = useMutation(updateDirectorMutation);
+
     const handleClose = () => onClose();
 
     const handleSave = () => {
         const {id, name, age} = selectedValue;
-        id ? updateDirector({id, name, age: Number(age)}) : addDirector({name, age: Number(age)});
+
+        if (id) {
+            updateDirector({
+                variables: {
+                    id,
+                    name,
+                    age: Number(age)
+                },
+                refetchQueries: [{
+                    query: directorsQuery,
+                    variables: {name: ""}
+                }]
+            })
+        } else {
+            addDirector({
+                variables: {
+                    name,
+                    age: Number(age)
+                },
+                refetchQueries: [{
+                    query: directorsQuery,
+                    variables: {name: ""}
+                }]
+            });
+        }
+
         onClose()
     };
 

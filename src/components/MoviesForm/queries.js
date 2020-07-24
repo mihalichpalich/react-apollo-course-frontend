@@ -1,6 +1,5 @@
-import {gql} from 'apollo-boost';
+import {gql} from '@apollo/client';
 
-//запрос для получения id и имени режиссера для дропдауна в форме
 export const directorsQuery = gql`
     query directorsQuery($name: String) {
         directors(name: $name) {
