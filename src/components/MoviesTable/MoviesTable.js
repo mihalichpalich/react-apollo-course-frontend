@@ -3,9 +3,11 @@ import {Paper, Table, TableHead, TableRow, TableCell, TableBody, Checkbox, IconB
 import MoreIcon from '@material-ui/icons/MoreVert';
 import DeleteIcon from '@material-ui/icons/Delete';
 import CreateIcon from '@material-ui/icons/Create';
+import {useQuery} from '@apollo/client';
 
 import withHocs from './MoviesTableHoc';
 import ItemDialog from "../ItemDialog/ItemDialog";
+import {moviesQuery} from "./queries";
 
 const movies = [
     { id: 1, name: 'Pulp Fiction', genre: 'Crime', rate: 10, director: { name: 'Quentin Tarantino' }, watched: true },
@@ -15,17 +17,20 @@ const movies = [
 const MoviesTable = ({classes, onOpen}) => {
     const [anchorEl, setAnchorEl] = useState(null);
     const [openDialog, setOpenDialog] = useState(false);
-    const [data, setData] = useState({});
+    const [itemData, setItemData] = useState({});
+    const {loading, error, data} = useQuery(moviesQuery, {
+        variables: {name: ""}
+    });
 
     const handleClick = ({currentTarget}, data) => {
         setAnchorEl(currentTarget);
-        setData(data)
+        setItemData(data)
     };
 
     const handleClose = () => setAnchorEl(null);
 
     const handleEdit = () => {
-        onOpen(data);
+        onOpen(itemData);
         handleClose()
     };
 
@@ -39,7 +44,7 @@ const MoviesTable = ({classes, onOpen}) => {
 
     return (
         <>
-            <ItemDialog open={openDialog} handleClose={handleDialogClose} id={data.id}/>
+            <ItemDialog open={openDialog} handleClose={handleDialogClose} id={itemData.id}/>
 
             <Paper className={classes.root}>
                 <Table>
