@@ -6,7 +6,7 @@ import CreateIcon from '@material-ui/icons/Create';
 import {useQuery} from '@apollo/client';
 
 import withHocs from './MoviesTableHoc';
-import ItemDialog from "../ItemDialog/ItemDialog";
+import MoviesDialog from "../MoviesDialog/MoviesDialog";
 import {moviesQuery} from "./queries";
 
 const MoviesTable = ({classes, onOpen}) => {
@@ -40,7 +40,7 @@ const MoviesTable = ({classes, onOpen}) => {
 
     return (
         <>
-            <ItemDialog open={openDialog} handleClose={handleDialogClose} id={itemData.id}/>
+            <MoviesDialog open={openDialog} handleClose={handleDialogClose} id={itemData.id}/>
 
             <Paper className={classes.root}>
                 <Table>

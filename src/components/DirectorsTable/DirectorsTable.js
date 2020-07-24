@@ -6,7 +6,7 @@ import CreateIcon from '@material-ui/icons/Create';
 import {useQuery} from '@apollo/client';
 
 import withHocs from './DirectorsTableHoc';
-import ItemDialog from "../ItemDialog/ItemDialog";
+import DirectorsDialog from "../DirectorsDialog/DirectorsDialog";
 import {directorsQuery} from "./queries";
 
 const DirectorsTable = ({classes, onOpen}) => {
@@ -40,7 +40,7 @@ const DirectorsTable = ({classes, onOpen}) => {
 
     return (
         <>
-            <ItemDialog open={openDialog} handleClose={handleDialogClose} id={itemData.id}/>
+            <DirectorsDialog open={openDialog} handleClose={handleDialogClose} id={itemData.id}/>
 
             <Paper className={classes.root}>
                 <Table>

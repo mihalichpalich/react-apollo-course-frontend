@@ -8,7 +8,7 @@ import {addDirectorMutation} from "./mutation";
 import {directorsQuery} from "../DirectorsTable/queries";
 
 const DirectorsForm = ({selectedValue = {}, onClose, classes, open, handleChange}) => {
-    const [addDirector, {data}] = useMutation(addDirectorMutation);
+    const [addDirector] = useMutation(addDirectorMutation);
 
     const handleClose = () => onClose();
 
