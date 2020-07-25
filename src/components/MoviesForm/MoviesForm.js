@@ -1,4 +1,4 @@
-import React from "react";
+import React, {useState} from "react";
 import {
     Dialog,
     DialogTitle,
@@ -14,6 +14,7 @@ import {
 } from "@material-ui/core";
 import SaveIcon from '@material-ui/icons/Save';
 import {useMutation, useQuery} from '@apollo/client';
+import {Alert} from "@material-ui/lab";
 
 import withHocs from './MoviesFormHoc';
 import {addMovieMutation, updateMovieMutation} from "./mutations";
@@ -31,6 +32,7 @@ const MoviesForm = (
         handleCheckboxChange
     }
 ) => {
+    const [showAlert, setShowAlert] = useState(false);
     const [addMovie] = useMutation(addMovieMutation);
     const [updateMovie] = useMutation(updateMovieMutation);
     const {data = {}} = useQuery(directorsQuery, {
@@ -43,25 +45,30 @@ const MoviesForm = (
     const handleSave = () => {
         const {id, name, genre, rate, directorId, watched} = selectedValue;
 
-        if (id) {
-            updateMovie({
-                variables: {id, name, genre, rate: Number(rate), directorId, watched: Boolean(watched)},
-                refetchQueries: [{
-                    query: moviesQuery,
-                    variables: {name: ""}
-                }]
-            });
+        if (name === '' || genre === '' || directorId === '') {
+            setShowAlert(true)
         } else {
-            addMovie({
-                variables: {name, genre, rate: Number(rate), directorId, watched: Boolean(watched)},
-                refetchQueries: [{
-                    query: moviesQuery,
-                    variables: {name: ""}
-                }]
-            });
-        }
+            if (id) {
+                updateMovie({
+                    variables: {id, name, genre, rate: Number(rate), directorId, watched: Boolean(watched)},
+                    refetchQueries: [{
+                        query: moviesQuery,
+                        variables: {name: ""}
+                    }]
+                });
+            } else {
+                addMovie({
+                    variables: {name, genre, rate: Number(rate), directorId, watched: Boolean(watched)},
+                    refetchQueries: [{
+                        query: moviesQuery,
+                        variables: {name: ""}
+                    }]
+                });
+            }
 
-        onClose()
+            setShowAlert(false);
+            onClose()
+        }
     };
 
     return (
@@ -128,6 +135,8 @@ const MoviesForm = (
                     </Button>
                 </div>
             </form>
+
+            {showAlert && <Alert severity="error">Please note the movie's name and genre and choose the director</Alert>}
         </Dialog>
     )
 };

@@ -1,13 +1,15 @@
-import React from "react";
+import React, {useState} from "react";
 import {Dialog, DialogTitle, TextField, Button} from "@material-ui/core";
 import SaveIcon from '@material-ui/icons/Save';
 import {useMutation} from '@apollo/client';
+import {Alert} from "@material-ui/lab";
 
 import withHocs from './DirectorsFormHoc';
 import {addDirectorMutation, updateDirectorMutation} from "./mutations";
 import {directorsQuery} from "../DirectorsTable/queries";
 
 const DirectorsForm = ({selectedValue = {}, onClose, classes, open, handleChange}) => {
+    const [showAlert, setShowAlert] = useState(false);
     const [addDirector] = useMutation(addDirectorMutation);
     const [updateDirector] = useMutation(updateDirectorMutation);
 
@@ -16,32 +18,37 @@ const DirectorsForm = ({selectedValue = {}, onClose, classes, open, handleChange
     const handleSave = () => {
         const {id, name, age} = selectedValue;
 
-        if (id) {
-            updateDirector({
-                variables: {
-                    id,
-                    name,
-                    age: Number(age)
-                },
-                refetchQueries: [{
-                    query: directorsQuery,
-                    variables: {name: ""}
-                }]
-            })
+        if (name === '') {
+            setShowAlert(true)
         } else {
-            addDirector({
-                variables: {
-                    name,
-                    age: Number(age)
-                },
-                refetchQueries: [{
-                    query: directorsQuery,
-                    variables: {name: ""}
-                }]
-            });
-        }
+            if (id) {
+                updateDirector({
+                    variables: {
+                        id,
+                        name,
+                        age: Number(age)
+                    },
+                    refetchQueries: [{
+                        query: directorsQuery,
+                        variables: {name: ""}
+                    }]
+                })
+            } else {
+                addDirector({
+                    variables: {
+                        name,
+                        age: Number(age)
+                    },
+                    refetchQueries: [{
+                        query: directorsQuery,
+                        variables: {name: ""}
+                    }]
+                });
+            }
 
-        onClose()
+            setShowAlert(false);
+            onClose()
+        }
     };
 
     return (
@@ -74,6 +81,8 @@ const DirectorsForm = ({selectedValue = {}, onClose, classes, open, handleChange
                     </Button>
                 </div>
             </form>
+
+            {showAlert && <Alert severity="error">Director's name should not be empty</Alert>}
         </Dialog>
     )
 };
