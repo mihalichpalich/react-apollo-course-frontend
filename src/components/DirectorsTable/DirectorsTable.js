@@ -10,15 +10,17 @@ import DirectorsDialog from "../DirectorsDialog/DirectorsDialog";
 import {directorsQuery} from "./queries";
 import DirectorsSearch from "../DirectorsSearch/DirectorsSearch";
 
-const DirectorsTable = ({classes, onOpen}) => {
+const DirectorsTable = ({classes, onOpen, fetchDirectors}) => {
     const [anchorEl, setAnchorEl] = useState(null);
     const [openDialog, setOpenDialog] = useState(false);
     const [itemData, setItemData] = useState({});
     const [name, setName] = useState('');
-    const {loading, data = {}, fetchMore} = useQuery(directorsQuery, {
+    const {data = {}, fetchMore, refetch} = useQuery(directorsQuery, {
         variables: {name: ""}
     });
     const {directors = []} = data;
+
+    fetchDirectors && refetch();
 
     const handleChange = event => {
         setName(event.target.value)

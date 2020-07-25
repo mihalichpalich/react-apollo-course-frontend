@@ -22,15 +22,17 @@ import MoviesDialog from "../MoviesDialog/MoviesDialog";
 import {moviesQuery} from "./queries";
 import MoviesSearch from "../MoviesSearch/MoviesSearch";
 
-const MoviesTable = ({classes, onOpen}) => {
+const MoviesTable = ({classes, onOpen, fetchMovies}) => {
     const [anchorEl, setAnchorEl] = useState(null);
     const [openDialog, setOpenDialog] = useState(false);
     const [itemData, setItemData] = useState({});
     const [name, setName] = useState('');
-    const {loading, data = {}, fetchMore} = useQuery(moviesQuery, {
+    const {loading, data = {}, fetchMore, refetch} = useQuery(moviesQuery, {
         variables: {name: ""}
     });
     const {movies = []} = data;
+
+    fetchMovies && refetch();
 
     const handleChange = event => {
         setName(event.target.value)

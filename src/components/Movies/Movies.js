@@ -6,7 +6,7 @@ import withHocs from './MoviesHoc';
 import MoviesForm from "../MoviesForm/MoviesForm";
 import MoviesTable from "../MoviesTable/MoviesTable";
 
-const Movies = ({classes}) => {
+const Movies = ({classes, fetchMovies}) => {
     const [movieData, setMovieData] = useState({
         id: '',
         open: false,
@@ -82,7 +82,7 @@ const Movies = ({classes}) => {
             />
 
             <div className={classes.wrapper}>
-                <MoviesTable onOpen={handleClickOpen} onClose={handleClose} />
+                <MoviesTable onOpen={handleClickOpen} onClose={handleClose} fetchMovies={fetchMovies}/>
 
                 <Fab onClick={() => handleClickOpen()} color="primary" aria-label="Add" className={classes.fab}>
                     <AddIcon />
