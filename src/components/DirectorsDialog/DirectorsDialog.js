@@ -16,6 +16,7 @@ const DirectorsDialog = ({id, handleClose, open}) => {
                 variables: {name: ""}
             }]
         });
+
         handleClose()
     };
 

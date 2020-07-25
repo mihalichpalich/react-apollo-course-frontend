@@ -27,6 +27,7 @@ const MoviesTable = ({classes, onOpen, fetchMovies}) => {
     const [openDialog, setOpenDialog] = useState(false);
     const [itemData, setItemData] = useState({});
     const [name, setName] = useState('');
+
     const {loading, data = {}, fetchMore, refetch} = useQuery(moviesQuery, {
         variables: {name: ""}
     });

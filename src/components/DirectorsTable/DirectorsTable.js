@@ -9,12 +9,15 @@ import withHocs from './DirectorsTableHoc';
 import DirectorsDialog from "../DirectorsDialog/DirectorsDialog";
 import {directorsQuery} from "./queries";
 import DirectorsSearch from "../DirectorsSearch/DirectorsSearch";
+import DirectorsErrorDialogModal from "../DirectorsErrorDialogModal/DirectorsErrorDialogModal";
 
 const DirectorsTable = ({classes, onOpen, fetchDirectors}) => {
     const [anchorEl, setAnchorEl] = useState(null);
     const [openDialog, setOpenDialog] = useState(false);
+    const [openErrorDialog, setOpenErrorDialog] = useState(false);
     const [itemData, setItemData] = useState({});
     const [name, setName] = useState('');
+
     const {data = {}, fetchMore, refetch} = useQuery(directorsQuery, {
         variables: {name: ""}
     });
@@ -48,12 +51,16 @@ const DirectorsTable = ({classes, onOpen, fetchDirectors}) => {
     };
 
     const handleDelete = () => {
-        handleDialogOpen();
+        (itemData.movies.length > 0) ? handleErrorDialogOpen() : handleDialogOpen();
+
         handleClose()
     };
 
     const handleDialogOpen = () => setOpenDialog(true);
     const handleDialogClose = () => setOpenDialog(false);
+
+    const handleErrorDialogOpen = () => setOpenErrorDialog(true);
+    const handleErrorDialogClose = () => setOpenErrorDialog(false);
 
     return (
         <>
@@ -62,6 +69,11 @@ const DirectorsTable = ({classes, onOpen, fetchDirectors}) => {
             </Paper>
 
             <DirectorsDialog open={openDialog} handleClose={handleDialogClose} id={itemData.id}/>
+            <DirectorsErrorDialogModal
+                open={openErrorDialog}
+                handleClose={handleErrorDialogClose}
+                errorText="Directors with movies cannot be removed"
+            />
 
             <Paper className={classes.root}>
                 <Table>
