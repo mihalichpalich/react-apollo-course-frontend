@@ -1,5 +1,5 @@
 import React from "react";
-import {Button, Dialog, DialogActions, DialogContent, DialogContentText, DialogTitle} from "@material-ui/core";
+import {Button, Dialog, DialogActions, DialogContent, DialogContentText} from "@material-ui/core";
 import BlockIcon from '@material-ui/icons/Block';
 
 const DirectorsErrorDialogModal = ({open, handleClose, errorText}) => (

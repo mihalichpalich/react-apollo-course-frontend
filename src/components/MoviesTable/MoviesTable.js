@@ -1,4 +1,4 @@
-import React, {useState} from "react";
+import React, {useState, useEffect} from "react";
 import {
     Paper,
     Table,
@@ -9,31 +9,37 @@ import {
     Checkbox,
     IconButton,
     Menu,
-    MenuItem,
-    LinearProgress
+    MenuItem
 } from "@material-ui/core";
 import MoreIcon from '@material-ui/icons/MoreVert';
 import DeleteIcon from '@material-ui/icons/Delete';
 import CreateIcon from '@material-ui/icons/Create';
-import {useQuery} from '@apollo/client';
+import {useLazyQuery} from '@apollo/client';
+import LinearProgress from "@material-ui/core/LinearProgress";
 
 import withHocs from './MoviesTableHoc';
 import MoviesDialog from "../MoviesDialog/MoviesDialog";
 import {moviesQuery} from "./queries";
 import MoviesSearch from "../MoviesSearch/MoviesSearch";
 
-const MoviesTable = ({classes, onOpen, fetchMovies}) => {
+const MoviesTable = ({classes, onOpen}) => {
+    const [movies, setMovies] = useState([]);
     const [anchorEl, setAnchorEl] = useState(null);
     const [openDialog, setOpenDialog] = useState(false);
     const [itemData, setItemData] = useState({});
     const [name, setName] = useState('');
 
-    const {loading, data = {}, fetchMore, refetch} = useQuery(moviesQuery, {
-        variables: {name: ""}
-    });
-    const {movies = []} = data;
+    const [getMovies, {loading, data, fetchMore}] = useLazyQuery(moviesQuery);
 
-    fetchMovies && refetch();
+    useEffect(() => {
+        getMovies({
+            variables: {name: ""}
+        });
+
+        if (data) {
+            setMovies(data.movies);
+        }
+    }, [data]);
 
     const handleChange = event => {
         setName(event.target.value)

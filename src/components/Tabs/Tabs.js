@@ -16,29 +16,17 @@ const TabContainer = ({ children, dir }) => (
 );
 
 const SimpleTabs = ({classes, theme}) => {
-    const [directorsFetch, setDirectorsFetch] = useState(false);
-    const [moviesFetch, setMoviesFetch] = useState(false);
     const [value, setValue] = useState(0);
 
     const handleChange = (event, value) => setValue(value);
     const handleChangeIndex = index => setValue(index);
 
-    const handleFetchDirectors = () => {
-        setDirectorsFetch(true);
-        setMoviesFetch(false);
-    };
-
-    const handleFetchMovies = () => {
-        setMoviesFetch(true);
-        setDirectorsFetch(false);
-    };
-
     return (
         <div className={classes.root}>
             <AppBar position="static">
                 <Tabs variant='fullWidth' value={value} onChange={handleChange}>
-                    <Tab label="Movies" icon={<CameraIcon />} onClick={() => handleFetchMovies()}/>
-                    <Tab label="Directors" icon={<MovieCreationIcon />} onClick={() => handleFetchDirectors()}/>
+                    <Tab label="Movies" icon={<CameraIcon />}/>
+                    <Tab label="Directors" icon={<MovieCreationIcon />}/>
                 </Tabs>
             </AppBar>
             <SwipeableViews
@@ -46,8 +34,8 @@ const SimpleTabs = ({classes, theme}) => {
                 index={value}
                 onChangeIndex={handleChangeIndex}
             >
-                <TabContainer dir={theme.direction}><Movies fetchMovies={moviesFetch}/></TabContainer>
-                <TabContainer dir={theme.direction}><Directors fetchDirectors={directorsFetch}/></TabContainer>
+                <TabContainer dir={theme.direction}><Movies/></TabContainer>
+                <TabContainer dir={theme.direction}><Directors/></TabContainer>
             </SwipeableViews>
         </div>
     )

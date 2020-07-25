@@ -6,7 +6,7 @@ import withHocs from './DirectorsHoc';
 import DirectorsForm from "../DirectorsForm/DirectorsForm";
 import DirectorsTable from "../DirectorsTable/DirectorsTable";
 
-const Directors = ({classes, fetchDirectors}) => {
+const Directors = ({classes}) => {
     const [directorData, setDirectorData] = useState({
         id: null,
         open: false,
@@ -54,7 +54,7 @@ const Directors = ({classes, fetchDirectors}) => {
             />
 
             <div className={classes.wrapper}>
-                <DirectorsTable onOpen={handleClickOpen} fetchDirectors={fetchDirectors}/>
+                <DirectorsTable onOpen={handleClickOpen}/>
 
                 <Fab onClick={() => handleClickOpen(null)} color="primary" aria-label="Add" className={classes.fab}>
                     <AddIcon />

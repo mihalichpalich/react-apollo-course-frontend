@@ -1,9 +1,9 @@
-import React, {useState} from "react";
+import React, {useState, useEffect} from "react";
 import {Paper, Table, TableHead, TableRow, TableCell, TableBody, IconButton, Menu, MenuItem} from "@material-ui/core";
 import MoreIcon from '@material-ui/icons/MoreVert';
 import DeleteIcon from '@material-ui/icons/Delete';
 import CreateIcon from '@material-ui/icons/Create';
-import {useQuery} from '@apollo/client';
+import {useLazyQuery} from '@apollo/client';
 
 import withHocs from './DirectorsTableHoc';
 import DirectorsDialog from "../DirectorsDialog/DirectorsDialog";
@@ -11,19 +11,25 @@ import {directorsQuery} from "./queries";
 import DirectorsSearch from "../DirectorsSearch/DirectorsSearch";
 import DirectorsErrorDialogModal from "../DirectorsErrorDialogModal/DirectorsErrorDialogModal";
 
-const DirectorsTable = ({classes, onOpen, fetchDirectors}) => {
+const DirectorsTable = ({classes, onOpen}) => {
+    const [directors, setDirectors] = useState([]);
     const [anchorEl, setAnchorEl] = useState(null);
     const [openDialog, setOpenDialog] = useState(false);
     const [openErrorDialog, setOpenErrorDialog] = useState(false);
     const [itemData, setItemData] = useState({});
     const [name, setName] = useState('');
 
-    const {data = {}, fetchMore, refetch} = useQuery(directorsQuery, {
-        variables: {name: ""}
-    });
-    const {directors = []} = data;
+    const [getDirectors, {data, fetchMore}] = useLazyQuery(directorsQuery);
 
-    fetchDirectors && refetch();
+    useEffect(() => {
+        getDirectors({
+            variables: {name: ""}
+        });
+
+        if (data) {
+            setDirectors(data.directors);
+        }
+    }, [data]);
 
     const handleChange = event => {
         setName(event.target.value)
