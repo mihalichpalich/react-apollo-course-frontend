@@ -6,7 +6,7 @@ import {MuiThemeProvider} from '@material-ui/core/styles';
 import theme from "./components/theme";
 
 const client = new ApolloClient({
-    uri: 'http://localhost:3001/graphql',
+    uri: 'https://react-apollo-course.herokuapp.com/graphql',
     cache: new InMemoryCache()
 });
 
