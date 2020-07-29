@@ -21,7 +21,7 @@ const DirectorsForm = ({selectedValue = {}, onClose, classes, open, handleChange
     const handleSave = () => {
         const {id, name, age} = selectedValue;
 
-        if (name !== '' && Number.isInteger(age)) {
+        if (name !== '' && Number.parseInt(age)) {
             if (id) {
                 updateDirector({
                     variables: {
@@ -35,6 +35,7 @@ const DirectorsForm = ({selectedValue = {}, onClose, classes, open, handleChange
                     }]
                 })
             } else {
+
                 addDirector({
                     variables: {
                         name,
