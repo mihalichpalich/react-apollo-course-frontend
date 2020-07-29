@@ -29,7 +29,7 @@ const DirectorsTable = ({classes, onOpen}) => {
         if (data) {
             setDirectors(data.directors);
         }
-    }, [data]);
+    }, [getDirectors, data]);
 
     const handleChange = event => {
         setName(event.target.value)

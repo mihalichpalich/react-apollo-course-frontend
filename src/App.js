@@ -7,6 +7,7 @@ import theme from "./components/theme";
 
 const client = new ApolloClient({
     uri: 'https://react-apollo-course.herokuapp.com/graphql',
+    // uri: 'http://localhost:3001/graphql',
     cache: new InMemoryCache()
 });
 

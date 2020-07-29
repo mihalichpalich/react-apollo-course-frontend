@@ -39,7 +39,7 @@ const MoviesTable = ({classes, onOpen}) => {
         if (data) {
             setMovies(data.movies);
         }
-    }, [data]);
+    }, [getMovies, data]);
 
     const handleChange = event => {
         setName(event.target.value)
