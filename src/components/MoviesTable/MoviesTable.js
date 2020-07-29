@@ -9,13 +9,13 @@ import {
     Checkbox,
     IconButton,
     Menu,
-    MenuItem
+    MenuItem,
+    LinearProgress
 } from "@material-ui/core";
 import MoreIcon from '@material-ui/icons/MoreVert';
 import DeleteIcon from '@material-ui/icons/Delete';
 import CreateIcon from '@material-ui/icons/Create';
 import {useLazyQuery} from '@apollo/client';
-import LinearProgress from "@material-ui/core/LinearProgress";
 
 import withHocs from './MoviesTableHoc';
 import MoviesDialog from "../MoviesDialog/MoviesDialog";

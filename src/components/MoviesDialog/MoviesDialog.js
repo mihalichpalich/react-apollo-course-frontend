@@ -16,6 +16,7 @@ const MoviesDialog = ({id, handleClose, open}) => {
                 variables: {name: ""}
             }]
         });
+
         handleClose()
     };
 

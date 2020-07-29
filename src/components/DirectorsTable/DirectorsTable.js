@@ -1,5 +1,16 @@
 import React, {useState, useEffect} from "react";
-import {Paper, Table, TableHead, TableRow, TableCell, TableBody, IconButton, Menu, MenuItem} from "@material-ui/core";
+import {
+    Paper,
+    Table,
+    TableHead,
+    TableRow,
+    TableCell,
+    TableBody,
+    IconButton,
+    Menu,
+    MenuItem,
+    LinearProgress
+} from "@material-ui/core";
 import MoreIcon from '@material-ui/icons/MoreVert';
 import DeleteIcon from '@material-ui/icons/Delete';
 import CreateIcon from '@material-ui/icons/Create';
@@ -19,7 +30,7 @@ const DirectorsTable = ({classes, onOpen}) => {
     const [itemData, setItemData] = useState({});
     const [name, setName] = useState('');
 
-    const [getDirectors, {data, fetchMore}] = useLazyQuery(directorsQuery);
+    const [getDirectors, {loading, data, fetchMore}] = useLazyQuery(directorsQuery);
 
     useEffect(() => {
         getDirectors({
@@ -81,56 +92,69 @@ const DirectorsTable = ({classes, onOpen}) => {
                 errorText="Directors with movies cannot be removed"
             />
 
-            <Paper className={classes.root}>
-                <Table>
-                    <TableHead>
-                        <TableRow>
-                            <TableCell>Name</TableCell>
-                            <TableCell align="right">Age</TableCell>
-                            <TableCell>Movies</TableCell>
-                            <TableCell></TableCell>
-                        </TableRow>
-                    </TableHead>
-
-                    <TableBody>
-                        {directors.map(director => {
-                            return (
-                                <TableRow key={director.id}>
-                                    <TableCell component="th" scope="row">{director.name}</TableCell>
-                                    <TableCell align="right">{director.age}</TableCell>
-                                    <TableCell>
-                                        {
-                                            director.movies.map((movie, key) => (
-                                                <div key={movie.name}>{`${key+1}. `}{movie.name}</div>
-                                            ))
-                                        }
-                                    </TableCell>
-                                    <TableCell align="right">
-                                        <>
-                                            <IconButton
-                                                color="inherit"
-                                                onClick={(e) => handleClick(e, director)}
-                                            >
-                                                <MoreIcon/>
-                                            </IconButton>
-
-                                            <Menu
-                                                id="simple-menu"
-                                                anchorEl={anchorEl}
-                                                open={Boolean(anchorEl)}
-                                                onClose={handleClose}
-                                            >
-                                                <MenuItem onClick={() => handleEdit(director)}><CreateIcon /> Edit</MenuItem>
-                                                <MenuItem onClick={handleDelete}><DeleteIcon/> Delete</MenuItem>
-                                            </Menu>
-                                        </>
-                                    </TableCell>
+            {loading
+                ? <LinearProgress color="primary"/>
+                : (
+                    <Paper className={classes.root}>
+                        <Table>
+                            <TableHead>
+                                <TableRow>
+                                    <TableCell>Name</TableCell>
+                                    <TableCell align="right">Age</TableCell>
+                                    <TableCell>Movies</TableCell>
+                                    <TableCell></TableCell>
                                 </TableRow>
-                            )
-                        })}
-                    </TableBody>
-                </Table>
-            </Paper>
+                            </TableHead>
+
+                            <TableBody>
+                                {directors.map(director => {
+                                    return (
+                                        <TableRow key={director.id}>
+                                            <TableCell component="th" scope="row">{director.name}</TableCell>
+                                            <TableCell align="right">{director.age}</TableCell>
+                                            <TableCell>
+                                                {
+                                                    director.movies.map((movie, key) => (
+                                                        <div key={movie.name}>{`${key+1}. `}{movie.name}</div>
+                                                    ))
+                                                }
+                                            </TableCell>
+                                            <TableCell align="right">
+                                                <>
+                                                    <IconButton
+                                                        color="inherit"
+                                                        onClick={
+                                                            (e) => {
+                                                                handleClick(e, director)
+                                                            }
+                                                        }
+                                                    >
+                                                        <MoreIcon/>
+                                                    </IconButton>
+
+                                                    <Menu
+                                                        id="simple-menu"
+                                                        anchorEl={anchorEl}
+                                                        open={Boolean(anchorEl)}
+                                                        onClose={handleClose}
+                                                    >
+                                                        <MenuItem onClick={() => handleEdit(director)}>
+                                                            <CreateIcon /> Edit
+                                                        </MenuItem>
+                                                        <MenuItem onClick={handleDelete}>
+                                                            <DeleteIcon/> Delete
+                                                        </MenuItem>
+                                                    </Menu>
+                                                </>
+                                            </TableCell>
+                                        </TableRow>
+                                    )
+                                })}
+                            </TableBody>
+                        </Table>
+                    </Paper>
+                )
+            }
         </>
     )
 };

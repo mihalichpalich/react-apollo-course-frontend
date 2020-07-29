@@ -21,7 +21,12 @@ const DirectorsForm = ({selectedValue = {}, onClose, classes, open, handleChange
     const handleSave = () => {
         const {id, name, age} = selectedValue;
 
-        if (name !== '' && Number.parseInt(age)) {
+        setAlert({
+            showAlert: false,
+            alertMessage: ""
+        });
+
+        if (name !== '' && Number.parseInt(age) > 0) {
             if (id) {
                 updateDirector({
                     variables: {
@@ -35,7 +40,6 @@ const DirectorsForm = ({selectedValue = {}, onClose, classes, open, handleChange
                     }]
                 })
             } else {
-
                 addDirector({
                     variables: {
                         name,
@@ -57,6 +61,11 @@ const DirectorsForm = ({selectedValue = {}, onClose, classes, open, handleChange
             setAlert({
                 showAlert: true,
                 alertMessage: "Director's name should not be empty"
+            })
+        } else if (Number.parseInt(age) <= 0 || !Number.parseInt(age)) {
+            setAlert({
+                showAlert: true,
+                alertMessage: "Director's age should be a positive number"
             })
         }
     };
