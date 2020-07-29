@@ -1,10 +1,10 @@
 self.__precacheManifest = (self.__precacheManifest || []).concat([
   {
-    "revision": "bf093826bc92e9b60474715640f657c0",
+    "revision": "1fe4a072f2ba1f0c8e7301feafab6cfa",
     "url": "/react-apollo-course-frontend/index.html"
   },
   {
-    "revision": "f814298ed7a7d9d0db55",
+    "revision": "87765adf09ed526d64f3",
     "url": "/react-apollo-course-frontend/static/css/main.5ecd60fb.chunk.css"
   },
   {
@@ -16,8 +16,8 @@ self.__precacheManifest = (self.__precacheManifest || []).concat([
     "url": "/react-apollo-course-frontend/static/js/2.4deca2ff.chunk.js.LICENSE.txt"
   },
   {
-    "revision": "f814298ed7a7d9d0db55",
-    "url": "/react-apollo-course-frontend/static/js/main.7dfc6b4b.chunk.js"
+    "revision": "87765adf09ed526d64f3",
+    "url": "/react-apollo-course-frontend/static/js/main.2f87be3e.chunk.js"
   },
   {
     "revision": "65e5f03aa0118e58d2b7",
