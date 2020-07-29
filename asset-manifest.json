@@ -1,22 +1,22 @@
 {
   "files": {
     "main.css": "/react-apollo-course-frontend/static/css/main.5ecd60fb.chunk.css",
-    "main.js": "/react-apollo-course-frontend/static/js/main.2f87be3e.chunk.js",
-    "main.js.map": "/react-apollo-course-frontend/static/js/main.2f87be3e.chunk.js.map",
+    "main.js": "/react-apollo-course-frontend/static/js/main.b42e0e14.chunk.js",
+    "main.js.map": "/react-apollo-course-frontend/static/js/main.b42e0e14.chunk.js.map",
     "runtime-main.js": "/react-apollo-course-frontend/static/js/runtime-main.674b7c67.js",
     "runtime-main.js.map": "/react-apollo-course-frontend/static/js/runtime-main.674b7c67.js.map",
-    "static/js/2.4deca2ff.chunk.js": "/react-apollo-course-frontend/static/js/2.4deca2ff.chunk.js",
-    "static/js/2.4deca2ff.chunk.js.map": "/react-apollo-course-frontend/static/js/2.4deca2ff.chunk.js.map",
+    "static/js/2.aa439243.chunk.js": "/react-apollo-course-frontend/static/js/2.aa439243.chunk.js",
+    "static/js/2.aa439243.chunk.js.map": "/react-apollo-course-frontend/static/js/2.aa439243.chunk.js.map",
     "index.html": "/react-apollo-course-frontend/index.html",
-    "precache-manifest.d51f22407c3ae8822a4d4ed1106aa9c9.js": "/react-apollo-course-frontend/precache-manifest.d51f22407c3ae8822a4d4ed1106aa9c9.js",
+    "precache-manifest.1cf2be69ed508f33b9f0095eb84b141f.js": "/react-apollo-course-frontend/precache-manifest.1cf2be69ed508f33b9f0095eb84b141f.js",
     "service-worker.js": "/react-apollo-course-frontend/service-worker.js",
     "static/css/main.5ecd60fb.chunk.css.map": "/react-apollo-course-frontend/static/css/main.5ecd60fb.chunk.css.map",
-    "static/js/2.4deca2ff.chunk.js.LICENSE.txt": "/react-apollo-course-frontend/static/js/2.4deca2ff.chunk.js.LICENSE.txt"
+    "static/js/2.aa439243.chunk.js.LICENSE.txt": "/react-apollo-course-frontend/static/js/2.aa439243.chunk.js.LICENSE.txt"
   },
   "entrypoints": [
     "static/js/runtime-main.674b7c67.js",
-    "static/js/2.4deca2ff.chunk.js",
+    "static/js/2.aa439243.chunk.js",
     "static/css/main.5ecd60fb.chunk.css",
-    "static/js/main.2f87be3e.chunk.js"
+    "static/js/main.b42e0e14.chunk.js"
   ]
 }
